@@ -8,7 +8,7 @@ export default class Splash extends Component {
           Big Little Banner
         </div>
 
-        <img src='/banner-rectangle.jpg' style={styles.img}/>
+        <img src='/banner-rectangle@4x.jpg' style={styles.img}/>
 
         <div style={styles.subheadline}>
           This little banner has big dreams - it wants to meet every person online
@@ -37,7 +37,7 @@ const styles = {
   },
   img: {
     margin: '50px auto 55px',
-    maxWidth: '500px',
+    maxHeight: '350px',
     border: '5px solid #000',
   },
 };
