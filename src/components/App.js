@@ -14,5 +14,6 @@ export default class App extends Component {
 
 const styles = {
   container: {
+    padding: '50px 0',
   },
 };
