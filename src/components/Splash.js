@@ -26,7 +26,7 @@ class Splash extends Component {
         mining: false,
         done: true,
       });
-    }, 5000);
+    }, 3000);
   }
 
   buttonText() {
