@@ -63,7 +63,10 @@ class Leaderboard extends Component {
       },
     } = this.props;
 
-    return _.slice(allUsers, _.clamp(this.myRank() - 3, 0, 999999999999999999), this.myRank() + 3);
+    const usersAround = _.slice(allUsers, _.clamp(this.myRank() - 3, 0, 999999999999999999), this.myRank() + 3);
+    const topUsers = _.slice(allUsers, 0, 3);
+
+    return _.orderBy(_.uniqBy(usersAround.concat(topUsers), 'id'), ['totalHashes'], ['desc']);
   }
 
   isCurrent(user) {
@@ -139,6 +142,9 @@ class Leaderboard extends Component {
                 style={[
                   styles.leaderboard.item.container,
                   user.name && this.isCurrent(user) && styles.leaderboard.item.currentContainer,
+                  this.rank(user) === 1 && styles.leaderboard.item.firstContainer,
+                  this.rank(user) === 2 && styles.leaderboard.item.secondContainer,
+                  this.rank(user) === 3 && styles.leaderboard.item.thirdContainer,
                 ]}>
                 <div style={styles.leaderboard.item.left}>
                   <div style={styles.leaderboard.item.rank}>
@@ -279,6 +285,16 @@ const styles = {
       },
       currentContainer: {
         backgroundColor: '#f3f3f3',
+      },
+      firstContainer: {
+        backgroundColor: '#F7CB35',
+      },
+      secondContainer: {
+        backgroundColor: '#D0B288',
+      },
+      thirdContainer: {
+        backgroundColor: '#F27332',
+        borderBottom: '5px dashed #000',
       },
     },
     nameInput: {
