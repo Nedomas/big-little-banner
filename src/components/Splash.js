@@ -75,7 +75,7 @@ const styles = {
       margin: '40px auto 45px',
       maxWidth: '400px',
       border: '5px solid #000',
-      width: '100%',
+      width: '80%',
     },
   },
   bottom: {
