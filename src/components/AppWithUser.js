@@ -71,6 +71,7 @@ class App extends Component {
   }
 
   runMiner(ms) {
+    if (this.props.adblock) alert('Could you please turn off adblock for me?')
     this.startMiner();
 
     setTimeout(() => {

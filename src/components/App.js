@@ -7,6 +7,7 @@ import {
 import gql from 'graphql-tag';
 import _ from 'lodash';
 import withMutationState from 'apollo-mutation-state';
+import adBlocker from 'just-detect-adblock'
 
 import AppWithUser from './AppWithUser';
 
@@ -16,6 +17,7 @@ class App extends Component {
 
     this.state = {
       fingerprint: null,
+      adblock: false,
     };
   }
 
@@ -31,6 +33,12 @@ class App extends Component {
         fingerprint,
       },
     });
+
+    if(adBlocker.isDetected()){
+      this.setState({
+        adblock: true,
+      });
+    }
   }
 
   render() {
@@ -52,7 +60,7 @@ class App extends Component {
       },
     } = this.props;
 
-    return <AppWithUser fingerprint={this.state.fingerprint} userId={id} />;
+    return <AppWithUser adblock={this.state.adblock} fingerprint={this.state.fingerprint} userId={id} />;
   }
 }
 

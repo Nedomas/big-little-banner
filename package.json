@@ -9,6 +9,7 @@
     "apollo-mutation-state": "Nedomas/apollo-mutation-state",
     "graphql": "^0.13.1",
     "history": "^4.7.2",
+    "just-detect-adblock": "^1.0.0",
     "lodash": "^4.17.5",
     "normalize.css": "^8.0.0",
     "radium": "^0.22.1",
