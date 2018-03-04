@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Radium from 'radium';
 import { compose } from 'redux';
+import windowSize from 'react-window-size';
 
 class Splash extends Component {
   buttonContent() {
@@ -21,6 +22,7 @@ class Splash extends Component {
   }
 
   render() {
+    const small = this.props.windowWidth <= 650;
 
     return (
       <div style={styles.container}>
@@ -32,7 +34,7 @@ class Splash extends Component {
           <img src='/banner-rectangle@4x.jpg' style={styles.top.img} alt='banner'/>
         </div>
 
-        <div style={styles.bottom.container}>
+        <div style={[styles.bottom.container, small && styles.small.bottom.container]}>
           <div style={styles.bottom.subheadline}>
             This little banner has big dreams - it wants to meet every person online.
 
@@ -52,12 +54,13 @@ class Splash extends Component {
 }
 
 export default compose(
+  windowSize,
   Radium,
 )(Splash);
 
 const styles = {
   container: {
-    minHeight: '100vh',
+    // minHeight: '100vh',
   },
   top: {
     container: {
@@ -89,7 +92,7 @@ const styles = {
       fontWeight: 550,
     },
     buttonContainer: {
-      padding: '20px',
+      width:'100%',
     },
     button: {
       color: '#fff',
@@ -99,8 +102,16 @@ const styles = {
       padding: '10px 20px',
       fontWeight: 450,
       cursor: 'pointer',
-      minWidth: '350px',
+      // maxWidth: '350px',
+      // minWidth:'230px',
       textAlign: 'center',
+    },
+  },
+  small: {
+    bottom: {
+      container: {
+        display: 'block',
+      },
     },
   },
 };

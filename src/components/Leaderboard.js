@@ -6,6 +6,7 @@ import gql from 'graphql-tag';
 import _ from 'lodash';
 import { Field, reduxForm } from 'redux-form';
 import withMutationState from 'apollo-mutation-state';
+import windowSize from 'react-window-size';
 
 class Leaderboard extends Component {
   userFromDatabase() {
@@ -111,6 +112,8 @@ class Leaderboard extends Component {
   }
 
   render() {
+    const small = this.props.windowWidth <= 650;
+
     return (
       <div style={styles.container}>
         <div style={styles.headline}>
@@ -147,14 +150,14 @@ class Leaderboard extends Component {
                   this.rank(user) === 3 && styles.leaderboard.item.thirdContainer,
                 ]}>
                 <div style={styles.leaderboard.item.left}>
-                  <div style={styles.leaderboard.item.rank}>
+                  <div style={[styles.leaderboard.item.rank, small && styles.small.leaderboard.item.rank]}>
                     {this.rank(user)}
                   </div>
-                  <div style={styles.leaderboard.item.name}>
+                  <div style={[styles.leaderboard.item.name, small && styles.small.leaderboard.item.name]}>
                     {this.nameBox(user)}
                   </div>
                 </div>
-                <div style={styles.leaderboard.item.dates}>
+                <div style={[styles.leaderboard.item.dates, small && styles.small.leaderboard.item.dates]}>
                   {this.datesCount(user)}
                 </div>
               </div>
@@ -234,6 +237,7 @@ export default compose(
     form: 'leaderboard',
     validate,
   }),
+  windowSize,
   Radium,
 )(Leaderboard);
 
@@ -254,6 +258,7 @@ const styles = {
   leaderboard: {
     container: {
       maxWidth: '400px',
+      width: '100%',
       margin: '0 auto',
     },
     item: {
@@ -300,7 +305,7 @@ const styles = {
     nameInput: {
       border: 0,
       borderBottom: '1px solid #000',
-      width: '200px',
+      width:'70%',
       outline: 0,
     },
   },
@@ -313,10 +318,11 @@ const styles = {
       backgroundColor: '#000',
       color: '#fff',
       border: 0,
-      marginLeft: '10px',
+      margin: '0 15px 0 10px',
       fontWeight: 550,
       padding: '8px 10px',
       display: 'block',
+      width:'30%',
     },
   },
   controls: {
@@ -341,6 +347,21 @@ const styles = {
       color: '#000',
       textAlign: 'center',
       paddingTop: '5px',
+    },
+  },
+  small: {
+    leaderboard: {
+      item: {
+        rank: {
+          fontSize: '14px',
+        },
+        name: {
+          fontSize: '14px',
+        },
+        dates: {
+          fontSize: '14px',
+        },
+      },
     },
   },
 };
