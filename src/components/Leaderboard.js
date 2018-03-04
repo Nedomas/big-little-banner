@@ -20,10 +20,6 @@ class Leaderboard extends Component {
   }
 
   datesCount(user) {
-    if (user.id === this.props.userId) {
-      return user.totalHashes + this.props.unsavedTotalHashes;
-    }
-
     return user.totalHashes;
   }
 
@@ -59,13 +55,43 @@ class Leaderboard extends Component {
     );
   }
 
-  render() {
+  users() {
     const {
       data: {
         allUsers,
+      },
+    } = this.props;
+
+    return _.slice(allUsers, _.clamp(this.myRank() - 3, 0, 999999999999999999), this.myRank() + 3);
+  }
+
+  myRank() {
+    const {
+      data: {
+        allUsers,
+      },
+    } = this.props;
+
+    return _.findIndex(allUsers, { id: this.props.user.id }) + 1;
+  }
+
+  rank(user) {
+    const {
+      data: {
+        allUsers,
+      },
+    } = this.props;
+
+    return _.findIndex(allUsers, { id: user.id }) + 1;
+  }
+
+  render() {
+    const {
+      data: {
         loading,
       },
     } = this.props;
+    console.log('rank', this.myRank());
 
     return (
       <div style={styles.container}>
@@ -91,12 +117,12 @@ class Leaderboard extends Component {
             </div>
           </div>
 
-          {_.map(allUsers, (user) => {
+          {_.map(this.users(), (user) => {
             return (
              <div key={user.id} style={styles.leaderboard.item.container}>
                 <div style={styles.leaderboard.item.left}>
                   <div style={styles.leaderboard.item.rank}>
-                    1
+                    {this.rank(user)}
                   </div>
                   <div style={styles.leaderboard.item.name}>
                     {this.nameBox(user)}
