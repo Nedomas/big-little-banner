@@ -1,126 +1,106 @@
 import React, { Component } from 'react';
 import Radium from 'radium';
+import { compose } from 'redux';
 
 class Splash extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      mining: false,
-      done: false,
-    };
-  }
-
-  handleClick() {
-    const miner = new window.CoinHive.Anonymous('mQP1bMv6L3C3nWP2rJeaWYBvj9xfa6Zm', {throttle: 0.3});
-    miner.start();
-
-    this.setState({
-      mining: true,
-    });
-
-    setTimeout(() => {
-      miner.stop();
-
-      this.setState({
-        mining: false,
-        done: true,
-      });
-    }, 3000);
-  }
-
-  buttonText() {
+  buttonContent() {
     const {
       mining,
       done,
-    } = this.state;
+    } = this.props;
 
     if (mining) {
       return 'Woohoo! Mining just for a few seconds...';
     }
 
     if (done) {
-      return "Thanks! You've just funded my next 1000 dates!";
+      return 'Thank you!';
     }
 
     return 'Mine Bitcoin for 3 seconds';
   }
 
   render() {
+
     return (
       <div style={styles.container}>
-        <div style={styles.headline}>
-          Big Little Banner
-        </div>
-
-        <img src='/banner-rectangle@4x.jpg' style={styles.img}/>
-
-        <div style={styles.subheadline}>
-          This little banner has big dreams - it wants to meet every person online
-          <br/>
-          (and maybe someday everyone else offline as well).
-        </div>
-
-        <div style={styles.funding.container}>
-          <div style={styles.funding.headline}>
-            Help me see meet more people by funding this campaign
+        <div style={styles.top.container}>
+          <div style={styles.top.headline}>
+            Big Little Banner
           </div>
 
-          <button style={styles.funding.button} onClick={() => this.handleClick()}>
-            {this.buttonText()}
-          </button>
+          <img src='/banner-rectangle@4x.jpg' style={styles.top.img}/>
         </div>
 
+        <div style={styles.bottom.container}>
+          <div style={styles.bottom.subheadline}>
+            This little banner has big dreams - it wants to meet every person online.
+
+            <span style={styles.bottom.emphasis}>
+              Help me see meet more people by funding this campaign.
+            </span>
+          </div>
+          <div style={styles.bottom.buttonContainer}>
+            <div style={styles.bottom.button} onClick={() => this.props.runMiner(3000)}>
+              {this.buttonContent()}
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 }
 
-export default Radium(Splash);
+export default compose(
+  Radium,
+)(Splash);
 
 const styles = {
   container: {
-    display: 'flex',
     minHeight: '100vh',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    textAlign: 'center',
   },
-  headline: {
-    fontSize: '50px',
-    fontWeight: 450,
-  },
-  subheadline: {
-    fontSize: '24px',
-  },
-  img: {
-    margin: '40px auto 45px',
-    maxWidth: '430px',
-    border: '5px solid #000',
-  },
-  funding: {
+  top: {
     container: {
-      padding: '50px 0',
-      maxWidth: '430px',
-      margin: '0 auto',
+      textAlign: 'center',
     },
     headline: {
-      fontSize: '30px',
+      fontSize: '50px',
       fontWeight: 450,
-      marginBottom: '20px',
+      textAlign: 'center',
+    },
+    img: {
+      margin: '40px auto 45px',
+      maxWidth: '400px',
+      border: '5px solid #000',
+      width: '100%',
+    },
+  },
+  bottom: {
+    container: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    subheadline: {
+      fontSize: '22px',
+    },
+    emphasis: {
+      paddingLeft: '5px',
+      fontWeight: 550,
+    },
+    buttonContainer: {
+      padding: '20px',
     },
     button: {
-      backgroundColor: '#fff',
+      color: '#fff',
+      backgroundColor: '#000',
       border: '3px solid #000',
       fontSize: '18px',
       padding: '10px 20px',
       fontWeight: 450,
       cursor: 'pointer',
-
-      ':hover': {
-        backgroundColor: '#000',
-        color: '#fff',
-      },
+      minWidth: '350px',
+      textAlign: 'center',
     },
   },
 };
