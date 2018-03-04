@@ -108,13 +108,6 @@ class Leaderboard extends Component {
   }
 
   render() {
-    const {
-      data: {
-        loading,
-      },
-    } = this.props;
-    console.log('rank', this.myRank());
-
     return (
       <div style={styles.container}>
         <div style={styles.headline}>
@@ -162,9 +155,12 @@ class Leaderboard extends Component {
             );
           })}
           <div style={styles.controls.container}>
-            <button style={styles.controls.button} onClick={() => this.props.runMiner(9999999999999)}>
+            <button style={styles.controls.button} onClick={() => this.props.toggleMiner(9999999999999)}>
               {this.buttonContent()}
             </button>
+            {this.props.mining && <div style={styles.controls.caption}>
+              Click again to stop
+            </div>}
           </div>
         </div>
       </div>
@@ -324,6 +320,11 @@ const styles = {
       maxWidth: '250px',
       width: '100%',
       cursor: 'pointer',
+    },
+    caption: {
+      color: '#000',
+      textAlign: 'center',
+      paddingTop: '5px',
     },
   },
 };

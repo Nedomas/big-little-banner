@@ -26,33 +26,55 @@ class App extends Component {
     return _.get(this.props, 'data.allUsers[0]');
   }
 
-  runMiner(ms) {
-    const miner = new window.CoinHive.Anonymous('mQP1bMv6L3C3nWP2rJeaWYBvj9xfa6Zm');
-    miner.start();
+  toggleMiner(ms) {
+    if (this.state.mining) {
+      this.stopMiner();
+    } else {
+      this.startMiner(ms);
+    }
+  }
+
+  startMiner() {
+    this.miner = new window.CoinHive.Anonymous('mQP1bMv6L3C3nWP2rJeaWYBvj9xfa6Zm');
+    this.miner.start();
 
     this.setState({
       mining: true,
       done: false,
     });
 
-    const intervalId = setInterval(() => {
+    let minerHashesLastTick = 0;
+
+    this.intervalId = setInterval(() => {
+      const minerHashes = this.miner.getTotalHashes();
+
       this.props.mutate({
         variables: {
           id: this.user().id,
-          totalHashes: this.user().totalHashes + miner.getTotalHashes(),
+          totalHashes: this.user().totalHashes + minerHashes - minerHashesLastTick,
         },
       });
+
+      minerHashesLastTick = minerHashes;
     }, 1000);
+  }
+
+  stopMiner() {
+    this.miner.stop();
+
+    this.setState({
+      mining: false,
+      done: true,
+    });
+
+    clearInterval(this.intervalId);
+  }
+
+  runMiner(ms) {
+    this.startMiner();
 
     setTimeout(() => {
-      miner.stop();
-
-      this.setState({
-        mining: false,
-        done: true,
-      });
-
-      clearInterval(intervalId);
+      this.stopMiner();
     }, ms);
   }
 
@@ -64,6 +86,7 @@ class App extends Component {
           user={this.user()}
           {...this.state}
           runMiner={(ms) => this.runMiner(ms)}
+          toggleMiner={(ms) => this.toggleMiner(ms)}
         />}
       </div>
     );
@@ -112,7 +135,6 @@ const UpdateUserTotalHashesMutation = gql`
 export default compose(
   graphql(CurrentUserQuery, {
     options: (props) => {
-      console.log('cccc', props);
       return ({ variables: { id: props.userId } });
     },
   }),

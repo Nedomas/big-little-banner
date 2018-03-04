@@ -3,7 +3,6 @@ import Radium from 'radium';
 import { compose } from 'redux';
 import {
   graphql,
-  withApollo,
 } from 'react-apollo';
 import gql from 'graphql-tag';
 import _ from 'lodash';
@@ -71,11 +70,3 @@ export default compose(
   withMutationState(),
   Radium,
 )(App);
-
-const styles = {
-  container: {
-    padding: '50px 20px',
-    maxWidth: '1000px',
-    margin: '0 auto',
-  },
-};

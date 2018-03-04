@@ -29,7 +29,7 @@ class Splash extends Component {
             Big Little Banner
           </div>
 
-          <img src='/banner-rectangle@4x.jpg' style={styles.top.img}/>
+          <img src='/banner-rectangle@4x.jpg' style={styles.top.img} alt='banner'/>
         </div>
 
         <div style={styles.bottom.container}>
