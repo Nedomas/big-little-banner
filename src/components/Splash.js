@@ -37,7 +37,7 @@ class Splash extends Component {
             This little banner has big dreams - it wants to meet every person online.
 
             <span style={styles.bottom.emphasis}>
-              Help me see meet more people by funding this campaign.
+              Help me meet more people by funding this campaign.
             </span>
           </div>
           <div style={styles.bottom.buttonContainer}>
