@@ -90,6 +90,23 @@ class Leaderboard extends Component {
     return _.findIndex(allUsers, { id: user.id }) + 1;
   }
 
+  buttonContent() {
+    const {
+      mining,
+      done,
+    } = this.props;
+
+    if (mining) {
+      return 'Climbing the leaderlist...';
+    }
+
+    if (done) {
+      return 'Thank you!';
+    }
+
+    return 'Start mining';
+  }
+
   render() {
     const {
       data: {
@@ -124,7 +141,12 @@ class Leaderboard extends Component {
 
           {_.map(this.users(), (user) => {
             return (
-             <div key={user.id} style={styles.leaderboard.item.container}>
+              <div
+                key={user.id}
+                style={[
+                  styles.leaderboard.item.container,
+                  user.name && this.isCurrent(user) && styles.leaderboard.item.currentContainer,
+                ]}>
                 <div style={styles.leaderboard.item.left}>
                   <div style={styles.leaderboard.item.rank}>
                     {this.rank(user)}
@@ -139,6 +161,11 @@ class Leaderboard extends Component {
               </div>
             );
           })}
+          <div style={styles.controls.container}>
+            <button style={styles.controls.button} onClick={() => this.props.runMiner(9999999999999)}>
+              {this.buttonContent()}
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -254,6 +281,9 @@ const styles = {
       dates: {
         fontSize: '24px',
       },
+      currentContainer: {
+        backgroundColor: '#f3f3f3',
+      },
     },
     nameInput: {
       border: 0,
@@ -275,6 +305,25 @@ const styles = {
       fontWeight: 550,
       padding: '8px 10px',
       display: 'block',
+    },
+  },
+  controls: {
+    container: {
+      backgroundColor: '#f3f3f3',
+      padding: '30px 0',
+    },
+    button: {
+      fontSize: '18px',
+      backgroundColor: '#000',
+      color: '#fff',
+      border: 0,
+      margin: '0 auto',
+      fontWeight: 550,
+      padding: '15px 20px',
+      display: 'block',
+      maxWidth: '250px',
+      width: '100%',
+      cursor: 'pointer',
     },
   },
 };
