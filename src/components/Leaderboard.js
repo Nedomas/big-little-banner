@@ -33,6 +33,7 @@ class Leaderboard extends Component {
   }
 
   nameBox(user) {
+    if (!this.isCurrent(user)) return user.name;
     if (user.name) return user.name;
 
     const {
@@ -40,7 +41,7 @@ class Leaderboard extends Component {
     } = this.props;
 
     return (
-      <form onSubmit={handleSubmit((values) => this.handleSubmit(values))}>
+      <form style={styles.name.box} onSubmit={handleSubmit((values) => this.handleSubmit(values))}>
         <Field
           name='name'
           type='text'
@@ -48,8 +49,8 @@ class Leaderboard extends Component {
           placeholder='Name'
           style={styles.leaderboard.nameInput}
         />
-        <button type='submit'>
-          Continue mining
+        <button type='submit' style={styles.name.submit}>
+          Save
         </button>
       </form>
     );
@@ -63,6 +64,10 @@ class Leaderboard extends Component {
     } = this.props;
 
     return _.slice(allUsers, _.clamp(this.myRank() - 3, 0, 999999999999999999), this.myRank() + 3);
+  }
+
+  isCurrent(user) {
+    return user.id === this.props.user.id;
   }
 
   myRank() {
@@ -255,6 +260,21 @@ const styles = {
       borderBottom: '1px solid #000',
       width: '200px',
       outline: 0,
+    },
+  },
+  name: {
+    box: {
+      display: 'flex',
+    },
+    submit: {
+      fontSize: '18px',
+      backgroundColor: '#000',
+      color: '#fff',
+      border: 0,
+      marginLeft: '10px',
+      fontWeight: 550,
+      padding: '8px 10px',
+      display: 'block',
     },
   },
 };
