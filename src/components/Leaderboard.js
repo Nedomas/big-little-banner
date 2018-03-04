@@ -9,6 +9,14 @@ import withMutationState from 'apollo-mutation-state';
 import windowSize from 'react-window-size';
 
 class Leaderboard extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      initialized: false,
+    };
+  }
+
   userFromDatabase() {
     const {
       data: {
@@ -100,8 +108,16 @@ class Leaderboard extends Component {
       done,
     } = this.props;
 
+    const {
+      initialized,
+    } = this.state;
+
     if (mining) {
       return 'Climbing the leaderlist...';
+    }
+
+    if (done && !initialized) {
+      return 'Start mining';
     }
 
     if (done) {
@@ -292,13 +308,13 @@ const styles = {
         backgroundColor: '#f3f3f3',
       },
       firstContainer: {
-        backgroundColor: '#F7CB35',
+        backgroundColor: '#979897',
       },
       secondContainer: {
-        backgroundColor: '#D0B288',
+        backgroundColor: '#B2B3B2',
       },
       thirdContainer: {
-        backgroundColor: '#F27332',
+        backgroundColor: '#D5D6D5',
         borderBottom: '5px dashed #000',
       },
     },

@@ -68,6 +68,7 @@ class App extends Component {
     });
 
     clearInterval(this.intervalId);
+    window.scrollTo(0,document.body.scrollHeight);
   }
 
   runMiner(ms) {
